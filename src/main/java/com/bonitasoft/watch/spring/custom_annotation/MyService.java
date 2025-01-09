@@ -7,40 +7,45 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyService {
 
-//    @BonitaProperty("my.property", deprecated = {"old.my.property", "older.my.property"})
-//    private String myProperty;
-
-    @Value("${new.property}")
+    @Value("${my.property:${old.my.property:${older.my.property}}}")
     @Deprecations({"old.my.property", "older.my.property"})
+    private String myProperty;
+
+    @Value("${new.property}}")
     private String newProperty;
 
-    @Value("${boolean.property}")
-//    @BonitaProperty("deprecated.boolean.property")
+    @Value("${boolean.property:${deprecated.boolean.property}}")
+    @Deprecations("deprecated.boolean.property")
     private boolean booleanProperty;
 
-    @Value("${int.property}")
+    @Value("${int.property:${deprecated.int.property}}")
     @Deprecations("deprecated.int.property")
     private int intProperty;
 
-    @Value("${long.property}")
+    @Value("${long.property:${deprecated.long.property}}")
     @Deprecations("deprecated.long.property")
     private long longProperty;
-//
-//    @BonitaProperty
-//    private String unnamedProperty;
-//
 
-    public MyService(@Value("${long.construct.parameter}")
+    @Value("${my.enum.flower:${my.old.enum.flower.name:ROSE}}")
+    @Deprecations("my.old.enum.flower.name")
+    private Flower flower;
+
+    public MyService(@Value("${long.construct.parameter:${deprecated.long.construct.parameter}}")
                      @Deprecations("deprecated.long.construct.parameter") long longConstructParameter) {
-        System.out.println("MyService constructor: "+longConstructParameter);
+        System.out.println("MyService constructor: " + longConstructParameter);
     }
 
     @PostConstruct
-    public void printProperty() {
-//        System.out.println("My Property: " + myProperty);
+    public void printProperties() {
+        System.out.println("My Property: " + myProperty);
         System.out.println("New Property: " + newProperty);
         System.out.println("booleanProperty: " + booleanProperty);
         System.out.println("intProperty: " + intProperty);
         System.out.println("longProperty: " + longProperty);
+        System.out.println("flower: " + flower);
+    }
+
+    enum Flower {
+        ROSE, LILY, TULIP
     }
 }

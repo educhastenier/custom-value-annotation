@@ -8,9 +8,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Deprecations {
-//    @AliasFor("name")
     String[] value() default {};
-//    @AliasFor("value")
-//    String name() default "";
-//    String[] deprecated() default {};
 }
